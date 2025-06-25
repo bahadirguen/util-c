@@ -25,19 +25,23 @@ int main(int argc, char** argv) {
     // const size_t last_idx = arr->size - 1;
     const size_t last_idx = arr->size;
     int32_t rc = u32ArraySet(arr, last_idx, 2 * (i + 1));
+#ifndef NDEBUG
     if (rc != NO_ARRAY_ACCESS_ERROR) {
       fprintf(stderr, "ArraySet error (rc: %d) with idx %zu, exiting\n", rc,
               last_idx);
       break;
     }
+#endif  // NDEBUG
     uint32_t last_elem;
     rc = u32ArrayGet(arr, last_idx, &last_elem);
+#ifndef NDEBUG
     if (rc != NO_ARRAY_ACCESS_ERROR) {
       fprintf(stderr, "ArrayGet error (rc: %d) with idx %zu, exiting\n", rc,
               last_idx);
       break;
     }
-    printf("arr[%zu]: %d\n", last_idx, last_elem);
+#endif  // NDEBUG
+    printf("arr[%zu]: %d (rc: %d)\n", last_idx, last_elem, rc);
   }
   freeArena(arena);
   return EXIT_SUCCESS;

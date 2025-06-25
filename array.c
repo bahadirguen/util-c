@@ -32,18 +32,22 @@ U32Array* allocU32Array(SimpleArena* arena, const size_t size) {
 
 enum ArrayAccessError u32ArrayGet(U32Array* arr, const size_t idx,
                                   uint32_t* out) {
+#ifndef NDEBUG
   if (idx >= arr->size) {
     return OUT_OF_BOUNDS_ACCESS;
   }
+#endif  // NDEBUG
   *out = arr->head[idx];
   return NO_ARRAY_ACCESS_ERROR;
 }
 
 enum ArrayAccessError u32ArraySet(U32Array* arr, const size_t idx,
                                   const uint32_t val) {
+#ifndef NDEBUG
   if (idx >= arr->size) {
     return OUT_OF_BOUNDS_ACCESS;
   }
+#endif  // NDEBUG
   arr->head[idx] = val;
   return NO_ARRAY_ACCESS_ERROR;
 }

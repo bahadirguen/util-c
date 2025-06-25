@@ -22,9 +22,22 @@ int main(int argc, char** argv) {
     }
     printf("Arena idx: %zu\n", arena->idx);
 
-    const size_t last_idx = alloc_size - 1;
-    arr->head[last_idx] = 2 * (i + 1);
-    printf("arr[%zu]: %d\n", last_idx, arr->head[last_idx]);
+    // const size_t last_idx = arr->size - 1;
+    const size_t last_idx = arr->size;
+    int32_t rc = u32ArraySet(arr, last_idx, 2 * (i + 1));
+    if (rc != NO_ARRAY_ACCESS_ERROR) {
+      fprintf(stderr, "ArraySet error (rc: %d) with idx %zu, exiting\n", rc,
+              last_idx);
+      break;
+    }
+    uint32_t last_elem;
+    rc = u32ArrayGet(arr, last_idx, &last_elem);
+    if (rc != NO_ARRAY_ACCESS_ERROR) {
+      fprintf(stderr, "ArrayGet error (rc: %d) with idx %zu, exiting\n", rc,
+              last_idx);
+      break;
+    }
+    printf("arr[%zu]: %d\n", last_idx, last_elem);
   }
   freeArena(arena);
   return EXIT_SUCCESS;

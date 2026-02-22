@@ -6,14 +6,11 @@ project(
   LANGUAGES C
 )
 
-if(MSVC)
-  # Dummy
-else()
-  SET (CMAKE_C_COMPILER "clang")
-  SET (CMAKE_CXX_COMPILER "clang++")
+SET (CMAKE_C_COMPILER "clang")
+SET (CMAKE_CXX_COMPILER "clang++")
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+add_compile_options(-Wall -Wextra -Wpedantic)
 
 add_executable(Main main.c)
 
@@ -25,3 +22,4 @@ add_library(
   array.c
 )
 set_target_properties(collection PROPERTIES EXCLUDE_FROM_ALL TRUE)
+

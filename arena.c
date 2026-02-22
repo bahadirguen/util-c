@@ -7,7 +7,11 @@
 
 #define FIXED_BUMP_ARENA_NUM_MAX_ALLOCATIONS 256
 
-enum ArenaTypeEnum { ARENA_TYPE_ENUM_STATIC, ARENA_TYPE_ENUM_FIXED_BUMP };
+enum ArenaTypeEnum {
+  ARENA_TYPE_ENUM_STATIC,
+  ARENA_TYPE_ENUM_FIXED_BUMP,
+  ARENA_TYPE_ENUM__NUM_ELEMENTS
+};
 
 typedef struct I_Arena_Allocator {
   size_t size;

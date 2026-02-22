@@ -59,7 +59,11 @@ void* alloc_static_arena(I_Arena_Allocator* arena, const size_t size) {
   return buf;
 }
 
-void free_static_arena(I_Arena_Allocator* arena) { free(arena); }
+void free_static_arena(I_Arena_Allocator* arena) {
+  if (arena) {
+    free(arena);
+  }
+}
 
 I_Arena_Allocator* create_static_arena(const size_t arena_size) {
   const size_t struct_size = sizeof(I_Arena_Allocator);
@@ -111,13 +115,15 @@ void* alloc_fixed_bump_arena(I_Arena_Allocator* arena, const size_t size) {
 }
 
 void free_fixed_bump_arena(I_Arena_Allocator* arena) {
-  assert(arena->type_enum == ARENA_TYPE_ENUM_FIXED_BUMP);
-  Fixed_Bump_Arena_Context* arena_ctx = arena->arena_ctx;
-  assert(arena_ctx->block_idx < FIXED_BUMP_ARENA_NUM_MAX_ALLOCATIONS);
-  for (unsigned int i = 0; i <= arena_ctx->block_idx; i++) {
-    free(arena_ctx->data_blocks[i]);
+  if (arena) {
+    assert(arena->type_enum == ARENA_TYPE_ENUM_FIXED_BUMP);
+    Fixed_Bump_Arena_Context* arena_ctx = arena->arena_ctx;
+    assert(arena_ctx->block_idx < FIXED_BUMP_ARENA_NUM_MAX_ALLOCATIONS);
+    for (unsigned int i = 0; i <= arena_ctx->block_idx; i++) {
+      free(arena_ctx->data_blocks[i]);
+    }
+    free(arena);
   }
-  free(arena);
 }
 
 I_Arena_Allocator* create_fixed_bump_arena(const size_t data_block_size) {
